@@ -1,17 +1,27 @@
 "use strict";
-alert(`Welcome!`);
 
+alert(`Welcome!`);
+// consts
+const users = [];
 const firstName = prompt("What is your first name, friend?");
 const lastName = prompt("...and last name?");
 const mail = prompt("What is your mail?");
 const userMail = validateMail(mail);
-const password = prompt("...aaaand password");
+const userPassword = validatePassword();
+const newUser = person(firstName, lastName, mail);
 
-// 1. firstName
-// 2. lastName
-// 3. Mail
-// 3.1 while user enters incorrect email, we should return to prompt
+// Function that forms an object
+function person(firstName, lastName, mail) {
+  return {
+    firstName: firstName,
+    lastName: lastName,
+    mail: mail,
+    userPassword: userPassword,
+  };
+}
+users.push(newUser);
 
+// Function that validates email. Email must have @ and . symbols
 function validateMail(mail) {
   while (!mail.includes(".") || !mail.includes("@")) {
     if (!mail.includes(".")) {
@@ -22,78 +32,57 @@ function validateMail(mail) {
     }
     mail = prompt("Enter a valid email address:");
   }
+
   return true;
 }
 
-// function validateMail(mail) {
-//   let isRunning = true;
-//   while (isRunning) {
-//     if (mail.indexOf("@") == -1) {
-//       alert("No '@' symbol in your address");
-//       return false;
-//     }
-//     if (mail.indexOf(".") == -1) {
-//       alert("No '.' symbol in your address");
-//       return false;
-//     }
+// Function that validates password. Password must contain numbers, be a string and be longer than 8 characters.
+function validatePassword() {
+  const password = prompt("...aaaand password");
+  let isStrValue = false;
+  let isNumValue = false;
 
-//     if (mail.indexOf("@") != -1 && mail.indexOf(".") != -1) {
-//       alert("Thanks!");
-//       return true;
-//     }
-//   }
-// }
+  for (let i = 0; i < password.length; i++) {
+    const value = +password[i];
 
-// validateMail(mail) = mail;
-// надо как-то вызвать функцию validateMail и проверить через цикл while
+    if (isNaN(value)) {
+      isStrValue = true;
+      continue;
+    }
 
-// эта функция прописывает условия
-// function validateMail(mail) {
-//   if (mail.indexOf("@") == -1) {
-//     alert("No '@' symbol in your address");
-//     // false, должна вернуть к prompt
-//   }
-//   if (mail.indexOf(".") == -1) {
-//     alert("No '.' symbol in your address");
-//     // false, должна вернуть к prompt
-//   }
-//   if (mail.indexOf("@") != -1 && mail.indexOf(".") != -1) {
-//     alert("Thanks!");
-//     // true, должна пропустить к password
-//   }
-// }
+    if (typeof value === "number") {
+      isNumValue = true;
+    }
+  }
 
-// 1. Вопрос по скоупу и порядку. Функции всегда должны быть внизу после основного кода? Это должно быть так всегда? Последовательность функций внизу имеет порядок?
-// 2. Если в функции пустой параметр в скобках, return не нужен?
-// 3. Цикл while и функции. Когда надо использовать isRunning? Является ли функция тоже циклом?
+  while (!(isStrValue && isNumValue)) {
+    alert("Password is not valid");
 
-// Не получается имплементировать цикл While чтобы если пользователь написал только @ или только . , то оно возвращало к промпту
-// const isRunning = true;
-// while (isRunning) {
-//   if (!validation) break;
-// }
-//
-// const atValid (mail.indexOf("@") == -1) = true
+    // Additional logic to handle invalid password and update the password
 
-// const isValidMail = false;
+    // Get a new password from the user
+    const newPassword = prompt("Enter a new password:");
 
-// ! каждое условие отдельно
-// function atValidation() {
-//   if (mail.indexOf("@") == -1) {
-//     alert("No '@' symbol in your address");
-//     // false
-//   }
-// }
-// function dotValidation() {
-//   if (mail.indexOf(".") == -1) {
-//     alert("No '.' symbol in your address");
-//     // false
-//   }
-// }
+    // Reset
+    isStrValue = false;
+    isNumValue = false;
 
-// function validation() {
-//   if (mail.indexOf("@") != -1 && mail.indexOf(".") != -1) {
-//     alert("Thanks!");
-//     // true
-//   }
-// }
+    // Check the new password
+    for (let i = 0; i < newPassword.length; i++) {
+      const value = +newPassword[i];
+
+      if (isNaN(value)) {
+        isStrValue = true;
+        continue;
+      }
+
+      if (typeof value === "number") {
+        isNumValue = true;
+      }
+    }
+  }
+
+  alert("Password is valid");
+}
+console.log("[newUser]", newUser);
+debugger;
