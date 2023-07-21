@@ -1,17 +1,15 @@
 "use strict";
+alert("Welcome!");
 
-alert(`Welcome!`);
-// consts
+// Constants
 const users = [];
 const firstName = prompt("What is your first name, friend?");
 const lastName = prompt("...and last name?");
-const mail = prompt("What is your mail?");
-const userMail = validateMail(mail);
-const userPassword = validatePassword();
-const newUser = person(firstName, lastName, mail);
+let mail = prompt("What is your mail?");
+const userMail = validateMail();
 
 // Function that forms an object
-function person(firstName, lastName, mail) {
+function person(firstName, lastName, mail, userPassword) {
   return {
     firstName: firstName,
     lastName: lastName,
@@ -19,10 +17,13 @@ function person(firstName, lastName, mail) {
     userPassword: userPassword,
   };
 }
+
+const userPassword = validatePassword();
+const newUser = person(firstName, lastName, mail, userPassword);
 users.push(newUser);
 
 // Function that validates email. Email must have @ and . symbols
-function validateMail(mail) {
+function validateMail() {
   while (!mail.includes(".") || !mail.includes("@")) {
     if (!mail.includes(".")) {
       alert("Email should contain a period (.)");
@@ -33,56 +34,26 @@ function validateMail(mail) {
     mail = prompt("Enter a valid email address:");
   }
 
-  return true;
+  return mail;
 }
 
 // Function that validates password. Password must contain numbers, be a string and be longer than 8 characters.
 function validatePassword() {
-  const password = prompt("...aaaand password");
-  let isStrValue = false;
-  let isNumValue = false;
+  let password = prompt("...aaaand password");
 
-  for (let i = 0; i < password.length; i++) {
-    const value = +password[i];
-
-    if (isNaN(value)) {
-      isStrValue = true;
-      continue;
-    }
-
-    if (typeof value === "number") {
-      isNumValue = true;
-    }
-  }
-
-  while (!(isStrValue && isNumValue)) {
+  while (
+    password.length <= 8 ||
+    !/[0-9]/.test(password) ||
+    typeof password !== "string"
+  ) {
     alert("Password is not valid");
 
-    // Additional logic to handle invalid password and update the password
-
     // Get a new password from the user
-    const newPassword = prompt("Enter a new password:");
-
-    // Reset
-    isStrValue = false;
-    isNumValue = false;
-
-    // Check the new password
-    for (let i = 0; i < newPassword.length; i++) {
-      const value = +newPassword[i];
-
-      if (isNaN(value)) {
-        isStrValue = true;
-        continue;
-      }
-
-      if (typeof value === "number") {
-        isNumValue = true;
-      }
-    }
+    password = prompt("Enter a new password:");
   }
 
   alert("Password is valid");
+  return password;
 }
+
 console.log("[newUser]", newUser);
-debugger;
